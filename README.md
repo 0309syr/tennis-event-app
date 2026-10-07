@@ -1,77 +1,111 @@
-# React + TypeScript + Vite
+## Why I Built This
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+My brother was managing tennis events using Excel and found it time-consuming to create and update the timetable manually.
 
-Currently, two official plugins are available:
+I built this application to make the process faster and easier while keeping the timetable familiar to the people who would use it.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+I intentionally kept the layout and overall structure similar to the Excel timetable used by his company. This meant users could understand the new application without having to learn a completely different way of reading the schedule.
 
-## React Compiler
+Instead of manually arranging events in Excel, users can enter the event information and have the timetable automatically organized in the browser.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### Design Approach
 
-Note: This will impact Vite dev & build performances.
+The main goal was not to completely redesign the timetable, but to **improve the existing workflow while preserving a familiar interface**.
 
-## Expanding the ESLint configuration
+I considered how the timetable was already being used and kept important visual elements such as:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Time displayed along the schedule
+- Events positioned according to their start time
+- Event duration represented by the size of the event
+- Separate columns for different dates
+- Event information displayed directly on the timetable
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+This allowed the application to feel familiar while reducing the amount of manual work required to create the schedule.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Features
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Select two dates for the timetable
+- Create tennis events with:
+  - Date
+  - Start and end time
+  - Duration
+  - Coach
+  - Level
+  - Comment
+  - Capacity
+  - Price
 
+- Display events in a visual timetable
+- Automatically sort events by start time
+- Display events on the correct date
+- Delete events
+- Persist events using `localStorage`
+- Keep selected dates after refreshing the page
+- Update event dates when the timetable dates are changed
+- Reset all saved events and dates
+
+## Tech Stack
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Browser `localStorage`
+
+## What I Learned
+
+This project helped me practice building a more complete React application and managing multiple pieces of application state.
+
+### React state management
+
+I used `useState` to manage:
+
+- Selected dates
+- Tennis events
+- Whether the timetable has been created
+- Loading state for saved data
+
+### Reusable components
+
+The timetable uses a reusable `EventTimeLine` component to display events for each selected date.
+
+This helped me practice passing data and functions between components through props instead of duplicating the same code.
+
+### Data persistence
+
+I used `localStorage` to save the application data in the browser.
+
+The app loads saved events and dates when it starts and automatically saves changes when events are added, deleted, or updated.
+
+### Working with arrays
+
+I practiced common array operations such as:
+
+- `map()` for updating events
+- `filter()` for displaying events for a specific date
+- `sort()` for ordering events by start time
+- `find()` for locating events at a specific time
+
+### Dynamic UI
+
+The timetable is generated from the event data rather than being manually written for each event.
+
+Event height is calculated from the event duration so longer events occupy more space in the timetable.
+
+## Running Locally
+
+Clone the repository and install the dependencies:
+
+```bash
+git clone https://github.com/0309syr/tennis-event-app.git
+cd tennis-event-app
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Start the development server:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run dev
 ```
+
+Then open the local URL shown in the terminal.

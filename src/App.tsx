@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
+import "./App.css";
 
 type Event = {
   id: string;
@@ -61,7 +62,7 @@ function EventTimeLine({
                     1名: {eventAtThisTime.price}円（税込）
                   </p>
                   <button
-                    className="absolute right-0 top-0 bg-gray-200 items-end w-5"
+                    className="no-print absolute right-0 top-0 bg-gray-200 items-end w-5"
                     onClick={() => deleteEvent(eventAtThisTime.id)}
                   >
                     x
@@ -244,8 +245,18 @@ function App() {
   if (date1 !== "" && date2 !== "") {
     return (
       <div>
-        <h1>{date1.slice(5, 7)}月テニスイベント</h1>
-        <div className="grid grid-cols-2 gap-4 m-8 bg-gray-50">
+        <div>
+          <button
+            className="no-print rounded p-2 fixed top-5 right-5 bg-gray-400 text-amber-50"
+            onClick={() => window.print()}
+          >
+            PDF出力
+          </button>
+        </div>
+        <div className="pb-3">
+          <h1 className="mb-20">{date1.slice(5, 7)}月テニスイベント</h1>
+        </div>
+        <div className="no-print grid grid-cols-2 gap-4 m-8 bg-gray-50">
           <div className="flex items-center">
             <label className="w-50">Coach: </label>
             <input
@@ -387,11 +398,15 @@ function App() {
           </div>
         </div>
         <div>
-          <button className="border" onClick={() => setIsCreated(false)}>
+          <button
+            className="border no-print"
+            onClick={() => setIsCreated(false)}
+          >
             Change dates
           </button>
         </div>
         <button
+          className="no-print"
           onClick={() => {
             const confirmed =
               window.confirm("すべてのイベントをリセットしますか？");

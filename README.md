@@ -10,17 +10,13 @@ Instead of manually arranging events in Excel, users can enter the event informa
 
 ### Design Approach
 
-The main goal was not to completely redesign the timetable, but to **improve the existing workflow while preserving a familiar interface**.
-
 I considered how the timetable was already being used and kept important visual elements such as:
 
 - Time displayed along the schedule
 - Events positioned according to their start time
-- Event duration represented by the size of the event
 - Separate columns for different dates
 - Event information displayed directly on the timetable
 
-This allowed the application to feel familiar while reducing the amount of manual work required to create the schedule.
 
 ## Features
 
@@ -89,8 +85,6 @@ I practiced common array operations such as:
 ### Dynamic UI
 
 The timetable is generated from the event data rather than being manually written for each event.
-
-Event height is calculated from the event duration so longer events occupy more space in the timetable.
 
 ## Running Locally
 

@@ -1,3 +1,19 @@
+/**
+ * Project: Tennis Event App
+ *
+ * Purpose:
+ * Main application component for managing and displaying tennis school events.
+ *
+ * Main features:
+ * - Creation page with 2 selected dates
+ * - Input form for events
+ * - Display event schedule in order of starting time
+ * - Save event data in localStorage
+ * - Print the event schedule
+ *
+ * Technologies: React, TypeScript, Tailwind CSS
+ */
+
 import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 import "./App.css";
@@ -17,6 +33,18 @@ type Event = {
 };
 
 function EventTimeLine({
+  /**
+   * function: EventTimeLine
+   * input:
+   *  - sortedEvents: array of events sorted by time
+   *  - times: array of time
+   *  - deleteEvent: function for recieving id that user wants to delete
+   * process:
+   *  - loop through time in times and find corresponding start time from sortedEvent for each event
+   *  - store found event in eventAtThisTime
+   *  - if an event is found, display the event card next to correspondig time
+   * return:JSX that displays the timeline and its event cards
+   */
   sortedEvents,
   times,
   deleteEvent,
@@ -85,6 +113,16 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    /**
+     * purpose: save data and let user starts with the page where they left after fresh the page
+     * process:
+     * - check if there is saved events
+     *   -> set savedEvents to events by using setEvents
+     * - check if user already choose date1 and date2
+     *    -> set saved date to setDate1 and setDate2 and set isCreated to true
+     * - set IsLoaded true
+     *
+     */
     const savedEvents = localStorage.getItem("events");
     const savedDate1 = localStorage.getItem("date1");
     const savedDate2 = localStorage.getItem("date2");
@@ -103,6 +141,16 @@ function App() {
   }, []);
 
   const changeDates = () => {
+    /**
+     * purpose: to change exsting dates while keeping event cards
+     * process:
+     * - retrieve exsiting date1 and date2 to oldDate1 and oldDate2
+     * - update events by loop through event array to see event dates match either oldDate1 or OldDate2
+     *  -> YES:create new event with new date and return it to .map()
+     * - Update the events state with the new array using setEvents().
+     * - set new dates to localStorage
+     * - set created to true
+     */
     const oldDate1 = localStorage.getItem("date1");
     const oldDate2 = localStorage.getItem("date2");
 
@@ -126,6 +174,8 @@ function App() {
     setIsCreated(true);
   };
 
+  // save the current events state to localStorage
+  // it runs everytime events change while isLoaded is true
   useEffect(() => {
     if (!isLoaded) return;
 
@@ -171,6 +221,16 @@ function App() {
     a.start.localeCompare(b.start),
   );
 
+  /**
+   * Purpose:
+   * Update the event state when the user changes an input or dropdown.
+   *
+   * Process:
+   * - Receive the change event from the input or select element.
+   * - Copy the existing event properties.
+   * - Update the property corresponding to the changed field with its new value.
+   * - Pass the updated object to setEvent to update the state.
+   */
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -181,6 +241,15 @@ function App() {
   };
 
   const addEvent = () => {
+    /**
+     * purpose: to create new event object
+     * process:
+     * - If user inputs time that is not in times show an alert and stop.
+     * - Create a new event object with a unique ID and a valid date.
+     * - Add new event object to array of events.
+     * - Reset the input form to default.
+     */
+
     if (!times.includes(event.start)) {
       alert("無効な時間です。");
       return;
@@ -208,6 +277,7 @@ function App() {
     });
   };
 
+  //retrieve id and filter out its event object and update events state
   const deleteEvent = (id: string) => {
     setEvents(events.filter((event) => event.id !== id));
   };
@@ -256,6 +326,7 @@ function App() {
         <div className="pb-3">
           <h1 className="mb-20">{date1.slice(5, 7)}月テニスイベント</h1>
         </div>
+        {/*input form*/}
         <div className="no-print grid grid-cols-2 gap-4 m-8 bg-gray-50">
           <div className="flex items-center">
             <label className="w-50">Coach: </label>

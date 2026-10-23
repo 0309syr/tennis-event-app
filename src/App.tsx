@@ -36,13 +36,12 @@ function EventTimeLine({
   /**
    * function: EventTimeLine
    * input:
-   *  - sortedEvents: array of events sorted by time
-   *  - times: array of time
-   *  - deleteEvent: function for recieving id that user wants to delete
+   *  - SortedEvents: array of events sorted by time
+   *  - DeleteEvent: function for recieving id that user wants to delete
    * process:
-   *  - loop through time in times and find corresponding start time from sortedEvent for each event
-   *  - store found event in eventAtThisTime
-   *  - if an event is found, display the event card next to correspondig time
+   *  - Loop through time in times and find an event that matches start time
+   *  - Store found event in eventAtThisTime
+   *  - If an event is found, display the event card next to the time
    * return:JSX that displays the timeline and its event cards
    */
   sortedEvents,
@@ -116,11 +115,11 @@ function App() {
     /**
      * purpose: save data and let user starts with the page where they left after fresh the page
      * process:
-     * - check if there is saved events
+     * - Check if there is saved events
      *   -> set savedEvents to events by using setEvents
-     * - check if user already choose date1 and date2
+     * - Check if user already choose date1 and date2
      *    -> set saved date to setDate1 and setDate2 and set isCreated to true
-     * - set IsLoaded true
+     * - Set IsLoaded true
      *
      */
     const savedEvents = localStorage.getItem("events");
@@ -144,12 +143,13 @@ function App() {
     /**
      * purpose: to change exsting dates while keeping event cards
      * process:
-     * - retrieve exsiting date1 and date2 to oldDate1 and oldDate2
-     * - update events by loop through event array to see event dates match either oldDate1 or OldDate2
+     * - Retrieve exsiting date1 and date2 to oldDate1 and oldDate2
+     * - Update events by loop through event array to see event dates match either oldDate1 or OldDate2
      *  -> YES:create new event with new date and return it to .map()
      * - Update the events state with the new array using setEvents().
-     * - set new dates to localStorage
-     * - set created to true
+     * - Set new dates to localStorage
+     * - Set created to true
+     * - Keep events whose dates match neither old date unchanged.
      */
     const oldDate1 = localStorage.getItem("date1");
     const oldDate2 = localStorage.getItem("date2");
@@ -174,8 +174,8 @@ function App() {
     setIsCreated(true);
   };
 
-  // save the current events state to localStorage
-  // it runs everytime events change while isLoaded is true
+  // Save the current events state to localStorage
+  // It runs everytime events change while isLoaded is true
   useEffect(() => {
     if (!isLoaded) return;
 
